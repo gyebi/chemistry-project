@@ -1,7 +1,9 @@
 import HoneycombNetwork from "@/components/HoneycombNetwork";
 import type { Person, PersonAcf } from "@/components/research-network/types";
+import { normalizeWordPressUrl } from "@/lib/wordpress";
 
-const PEOPLE_ENDPOINT = "http://localhost:8080/?rest_route=/wp/v2/people&_embed&per_page=100";
+const wordpressBaseUrl =
+  process.env.WORDPRESS_API_URL ?? "http://localhost:8080";
 
 type PeopleResult = {
   people: Person[];
@@ -44,9 +46,11 @@ function normalizePerson(value: unknown): Person | null {
   const embedded = asRecord(item._embedded);
   const media = embedded && Array.isArray(embedded["wp:featuredmedia"])
     ? embedded["wp:featuredmedia"]
-        .map(asRecord)
-        .filter((entry): entry is Record<string, unknown> => entry !== null)
-        .map((entry) => ({ source_url: asText(entry.source_url) }))
+      .map(asRecord)
+      .filter((entry): entry is Record<string, unknown> => entry !== null)
+      .map((entry) => ({
+        source_url: normalizeWordPressUrl(asText(entry.source_url)) ?? "",
+      }))
     : undefined;
 
   return {
@@ -60,8 +64,12 @@ function normalizePerson(value: unknown): Person | null {
 
 async function getPeople(): Promise<PeopleResult> {
   try {
-    const response = await fetch(PEOPLE_ENDPOINT, { cache: "no-store" });
-    if (!response.ok) return { people: [], unavailable: true };
+    const response = await fetch(
+      `${wordpressBaseUrl}/?rest_route=/wp/v2/people&_embed&per_page=100`,
+      {
+        cache: "no-store",
+      }
+    ); if (!response.ok) return { people: [], unavailable: true };
 
     const payload: unknown = await response.json();
     const people = Array.isArray(payload)

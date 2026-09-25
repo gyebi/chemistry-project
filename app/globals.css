@@ -82,6 +82,10 @@ button, a { font: inherit; }
 .network-lines { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .network-lines line { stroke: #4d6971; stroke-width: 2.25; stroke-linecap: round; opacity: .7; }
 
+.network-lines {
+  display: none;
+}
+
 .network-node { position: absolute; z-index: 1; width: var(--hex-width); height: var(--hex-height); }
 
 .hex-surface, .hex-button {

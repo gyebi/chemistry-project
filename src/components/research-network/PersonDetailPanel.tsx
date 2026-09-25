@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
+import { normalizeWordPressUrl } from "@/lib/wordpress";
 import type { Person } from "./types";
 
 type PersonDetailPanelProps = {
@@ -23,8 +24,13 @@ export default function PersonDetailPanel({ person, onClose }: PersonDetailPanel
   if (!person) return null;
 
   const name = person.title.rendered || "Researcher";
-  const imageUrl = person._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  const rawImageUrl =
+    person._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  const imageUrl = normalizeWordPressUrl(rawImageUrl);
   const { role, research_area: researchArea, qualifications, short_bio: shortBio, email, orcid } = person.acf;
+
+  const isLocalImage = imageUrl?.startsWith("http://localhost:");
+
 
   return (
     <div className="profile-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
@@ -32,7 +38,13 @@ export default function PersonDetailPanel({ person, onClose }: PersonDetailPanel
         <button className="panel-close" type="button" onClick={onClose} aria-label="Close profile" autoFocus>×</button>
         <div className="profile-heading">
           {imageUrl ? (
-            <Image src={imageUrl} alt={name} width={80} height={80} />
+            <Image 
+            src={imageUrl} 
+            alt={name} 
+            width={80} 
+            height={80} 
+            unoptimized={isLocalImage}/>
+            
           ) : (
             <div className="profile-image-fallback" aria-hidden="true">{name.slice(0, 1).toUpperCase()}</div>
           )}

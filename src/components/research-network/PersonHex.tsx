@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { normalizeWordPressUrl } from "@/lib/wordpress";
 import type { Person } from "./types";
 
 type PersonHexProps = {
@@ -6,9 +7,16 @@ type PersonHexProps = {
   onSelect: (person: Person) => void;
 };
 
+
+
 export default function PersonHex({ person, onSelect }: PersonHexProps) {
   const name = person.title.rendered || "Researcher";
-  const imageUrl = person._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  const rawImageUrl =
+    person._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  const imageUrl = normalizeWordPressUrl(rawImageUrl);
+
+  const isLocalImage = imageUrl?.startsWith("http://localhost:");
+
 
   return (
     <button
@@ -23,6 +31,7 @@ export default function PersonHex({ person, onSelect }: PersonHexProps) {
           alt={name}
           fill
           sizes="140px"
+          unoptimized = {isLocalImage}
           style={{ objectFit: "cover" }}
         />
       ) : (
