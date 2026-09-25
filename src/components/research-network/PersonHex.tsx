@@ -18,9 +18,17 @@ export default function PersonHex({ person, onSelect }: PersonHexProps) {
       aria-label={`Open profile for ${name}`}
     >
       {imageUrl ? (
-        <Image src={imageUrl} alt={name} fill sizes="140px" />
+        <Image
+          src={imageUrl}
+          alt={name}
+          fill
+          sizes="140px"
+          style={{ objectFit: "cover" }}
+        />
       ) : (
-        <span className="person-fallback" aria-hidden="true">{name.slice(0, 1).toUpperCase()}</span>
+        <div className="person-hex-fallback" aria-hidden="true">
+          {name.slice(0, 1).toUpperCase()}
+        </div>
       )}
       <span className="person-name">{name}</span>
     </button>

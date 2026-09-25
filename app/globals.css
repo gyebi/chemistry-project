@@ -116,8 +116,20 @@ button, a { font: inherit; }
   transition: transform 180ms ease, filter 180ms ease;
 }
 
+.person-hex {
+  position: relative;
+  width: 140px;
+  height: 121.24px;
+  overflow: hidden;
+}
+
 .person-hex::after { position: absolute; z-index: -1; inset: 0; content: ""; background: linear-gradient(transparent 42%, rgba(12, 23, 26, .77)); }
-.person-hex img { width: 100%; height: 100%; object-fit: cover; }
+.person-hex-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .person-fallback { display: grid; width: 100%; height: 100%; place-items: center; background: linear-gradient(135deg, #714087, #276e77); font-size: 3.2rem; font-weight: 800; }
 .person-name { position: absolute; z-index: 1; right: 1.45rem; bottom: .78rem; left: 1.45rem; overflow: hidden; color: white; font-size: .76rem; font-weight: 800; line-height: 1.1; text-align: center; text-overflow: ellipsis; text-shadow: 0 1px 3px rgba(0, 0, 0, .8); white-space: nowrap; }
 .hex-button:hover { filter: drop-shadow(0 11px 11px rgba(22, 44, 49, .2)); transform: translateY(-5px) scale(1.025); }
