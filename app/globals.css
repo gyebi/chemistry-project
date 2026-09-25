@@ -1,397 +1,149 @@
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 :root {
-  --hex-width: 140px;
-
-  --purple: #6b2c84;
-  --teal: #007481;
-
-  --phd-bg: #e7b84f;
-  --phd-text: #7a5010;
-
-  --msc-bg: #b9e1df;
-  --msc-text: #176d70;
-
-  --postdoc-bg: #e6aaa0;
-  --postdoc-text: #8a3028;
-
-  --text: #1f2430;
-  --muted: #606574;
+  --hex-side: 70px;
+  --hex-width: calc(var(--hex-side) * 2);
+  --hex-height: calc(var(--hex-side) * 1.7320508);
+  --purple: #59266f;
+  --ink: #172a33;
+  --muted: #52636b;
+  --teal: #007987;
 }
 
-html,
+html { background: #f5f8f8; }
+
 body {
   margin: 0;
-  padding: 0;
-}
-
-body {
+  color: var(--ink);
+  background: linear-gradient(135deg, #fbfcfb 0%, #edf3f3 100%);
   font-family: Arial, Helvetica, sans-serif;
-  color: var(--text);
-
-  background:
-    linear-gradient(
-      rgba(255, 255, 255, 0.96),
-      rgba(255, 255, 255, 0.96)
-    ),
-    radial-gradient(
-      circle at 20% 20%,
-      #ece7f5 0,
-      transparent 35%
-    );
 }
 
+button, a { font: inherit; }
 
-/* =========================
-   PAGE
-   ========================= */
+.page-shell { min-height: 100vh; padding: clamp(3rem, 8vw, 6.75rem) clamp(1rem, 4vw, 3rem) 5rem; }
 
-.page-shell {
-  min-height: 100vh;
-  padding: 60px 32px 100px;
-}
+.hero-copy { max-width: 48rem; margin: 0 auto clamp(2.5rem, 7vw, 5.5rem); text-align: center; }
 
-.hero-copy {
-  max-width: 760px;
-  margin: 0 auto 55px;
-  text-align: center;
-}
-
-.eyebrow {
-  margin: 0 0 12px;
-
+.eyebrow, .profile-kicker {
+  margin: 0 0 .7rem;
   color: var(--purple);
-
-  font-size: 0.8rem;
-  font-weight: 700;
-
+  font-size: .73rem;
+  font-weight: 800;
+  letter-spacing: .16em;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
 }
 
-.hero-copy h1 {
-  margin: 0;
+.hero-copy h1 { margin: 0; font-size: clamp(2.75rem, 7vw, 5.4rem); letter-spacing: -.06em; line-height: .95; }
+.hero-copy p:last-child { max-width: 39rem; margin: 1.5rem auto 0; color: var(--muted); font-size: clamp(1rem, 2vw, 1.15rem); line-height: 1.7; }
 
-  font-size: clamp(2.3rem, 5vw, 4.8rem);
-  line-height: 1;
-}
-
-.hero-copy p:last-child {
-  max-width: 650px;
-  margin: 20px auto 0;
-
-  color: var(--muted);
-
-  line-height: 1.7;
-}
-
-
-/* =========================
-   COMMON HEXAGON GEOMETRY
-   ========================= */
-
-/*
-   Pointed-top REGULAR hexagon.
-
-   width / height = √3 / 2
-                  ≈ 0.8660254
-
-   Therefore:
-   140px width ≈ 161.66px height.
-*/
-
-.hex-shape,
-.chemistry-node {
-  width: var(--hex-width);
-
-  aspect-ratio: 0.8660254;
-
-  clip-path: polygon(
-    50% 0%,
-    100% 25%,
-    100% 75%,
-    50% 100%,
-    0% 75%,
-    0% 25%
-  );
-}
-
-
-/* =========================
-   PERSON HEXAGON
-   ========================= */
-
-.hex-card {
-  width: var(--hex-width);
-  text-align: center;
-}
-
-.hex-shape {
+.network-section {
   position: relative;
-
-  margin: 0;
-
-  overflow: hidden;
-
-  background: var(--purple);
-
-  transition:
-    transform 180ms ease,
-    filter 180ms ease;
+  isolation: isolate;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem) 0 1.25rem;
 }
 
-/*
-   Inner pseudo layer creates a more convincing
-   six-sided border than CSS border on clip-path.
-*/
-.hex-shape::before {
+.network-section::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0 -3rem;
   content: "";
-
-  position: absolute;
-  inset: 3px;
-
-  z-index: 1;
-
-  background: #ded8e4;
-
-  clip-path: inherit;
+  background: linear-gradient(rgba(247, 251, 251, .93), rgba(247, 251, 251, .93)), url("/background_hex.png") center / cover no-repeat;
+  opacity: .9;
+  pointer-events: none;
 }
 
-.hex-shape img {
-  position: absolute;
-  inset: 3px;
+.network-heading { max-width: 38rem; margin: 0 auto 1.5rem; padding-inline: 1rem; text-align: center; }
+.network-heading h2 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.3rem); letter-spacing: -.035em; line-height: 1.08; }
 
-  width: calc(100% - 6px);
-  height: calc(100% - 6px);
-
-  z-index: 2;
-
-  object-fit: cover;
-
-  clip-path: inherit;
+.network-notice {
+  width: min(42rem, calc(100% - 2rem));
+  margin: 0 auto 1.5rem;
+  padding: .85rem 1rem;
+  border-left: 4px solid var(--teal);
+  background: rgba(255, 255, 255, .86);
+  color: #31515a;
+  line-height: 1.45;
 }
-
-.hex-placeholder {
-  position: absolute;
-  inset: 3px;
-
-  z-index: 2;
-
-  display: grid;
-  place-items: center;
-
-  background: var(--purple);
-  color: white;
-
-  font-size: 3rem;
-  font-weight: 700;
-
-  clip-path: inherit;
-}
-
-.hex-shape:hover {
-  transform: translateY(-4px) scale(1.025);
-
-  filter:
-    drop-shadow(
-      0 10px 14px rgba(0, 0, 0, 0.18)
-    );
-}
-
-
-/* =========================
-   PERSON LABELS
-   ========================= */
-
-.hex-info {
-  display: grid;
-
-  gap: 2px;
-
-  margin-top: 5px;
-
-  line-height: 1.2;
-}
-
-.hex-info strong {
-  font-size: 0.84rem;
-}
-
-.hex-info span {
-  color: var(--purple);
-
-  font-size: 0.74rem;
-  font-weight: 700;
-}
-
-.hex-info small {
-  color: #727783;
-
-  font-size: 0.68rem;
-  line-height: 1.25;
-}
-
-
-/* =========================
-   NETWORK
-   ========================= */
 
 .network-shell {
   width: 100%;
-
-  padding: 10px 0 80px;
-
-  overflow-x: auto;
-  overflow-y: visible;
+  overflow: auto;
+  padding: 1.5rem max(1rem, calc((100% - 1420px) / 2)) 2.25rem;
+  scrollbar-color: #93b4b8 transparent;
+  scrollbar-width: thin;
 }
 
-.network-canvas {
-  position: relative;
+.network-shell:focus-visible { outline: 3px solid #037c88; outline-offset: 4px; }
+.network-canvas { position: relative; min-width: 1420px; margin: 0 auto; }
 
-  width: 1100px;
-  height: 560px;
+.network-lines { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.network-lines line { stroke: #4d6971; stroke-width: 2.25; stroke-linecap: round; opacity: .7; }
 
-  margin: 0 auto;
-}
+.network-node { position: absolute; z-index: 1; width: var(--hex-width); height: var(--hex-height); }
 
-
-/* =========================
-   CONNECTION LINES
-   ========================= */
-
-.network-lines {
-  position: absolute;
-  inset: 0;
-
-  z-index: 0;
-
-  width: 100%;
-  height: 100%;
-
-  pointer-events: none;
-
-  overflow: visible;
-}
-
-.network-lines line {
-  stroke: #45484d;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-}
-
-
-/* =========================
-   NETWORK NODES
-   ========================= */
-
-.network-node {
-  position: absolute;
-
-  z-index: 2;
-
-  width: var(--hex-width);
-}
-
-.network-node .hex-card {
-  width: var(--hex-width);
-}
-
-
-/* =========================
-   CHEMISTRY / ROLE NODES
-   ========================= */
-
-.chemistry-node {
+.hex-surface, .hex-button {
   display: grid;
+  width: var(--hex-width);
+  height: var(--hex-height);
   place-items: center;
-
-  padding: 18px;
-
-  text-align: center;
-
-  font-weight: 700;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }
 
-.role-node {
-  font-size: 0.95rem;
-}
+.hex-surface { padding: 1.2rem 1.5rem; text-align: center; font-size: .85rem; font-weight: 800; line-height: 1.2; }
 
-.role-node.phd {
-  background: var(--phd-bg);
-  color: var(--phd-text);
-}
+.role-hex { border: 0; }
+.role-faculty { background: #d7c6e4; color: #482563; }
+.role-postdoc { background: #eab0a6; color: #702b2a; }
+.role-phd { background: #f0c565; color: #6a4b08; }
+.role-msc { background: #b8e0dd; color: #155d63; }
+.role-intern { background: #dce6e8; color: #42606a; }
 
-.role-node.msc {
-  background: var(--msc-bg);
-  color: var(--msc-text);
-}
+.research-hex { background: var(--teal); color: white; box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .17); }
+.empty-hex { background: rgba(233, 238, 238, .78); box-shadow: inset 0 0 0 2px #bbc9ca; }
 
-.role-node.postdoc {
-  background: var(--postdoc-bg);
-  color: var(--postdoc-text);
-}
-
-.research-node {
-  background: var(--teal);
-  color: white;
-
-  font-size: 0.8rem;
-  line-height: 1.25;
-}
-
-
-/* =========================
-   EMPTY LATTICE NODES
-   ========================= */
-
-.empty-node {
+.hex-button {
   position: relative;
-
+  isolation: isolate;
+  overflow: hidden;
   padding: 0;
-
-  background: #c7c7c7;
+  border: 0;
+  background: var(--purple);
+  color: white;
+  cursor: pointer;
+  transition: transform 180ms ease, filter 180ms ease;
 }
 
-.empty-node::after {
-  content: "";
+.person-hex::after { position: absolute; z-index: -1; inset: 0; content: ""; background: linear-gradient(transparent 42%, rgba(12, 23, 26, .77)); }
+.person-hex img { width: 100%; height: 100%; object-fit: cover; }
+.person-fallback { display: grid; width: 100%; height: 100%; place-items: center; background: linear-gradient(135deg, #714087, #276e77); font-size: 3.2rem; font-weight: 800; }
+.person-name { position: absolute; z-index: 1; right: 1.45rem; bottom: .78rem; left: 1.45rem; overflow: hidden; color: white; font-size: .76rem; font-weight: 800; line-height: 1.1; text-align: center; text-overflow: ellipsis; text-shadow: 0 1px 3px rgba(0, 0, 0, .8); white-space: nowrap; }
+.hex-button:hover { filter: drop-shadow(0 11px 11px rgba(22, 44, 49, .2)); transform: translateY(-5px) scale(1.025); }
+.hex-button:focus-visible, .panel-close:focus-visible, .email-action:focus-visible, .profile-details a:focus-visible { outline: 3px solid #ffdb74; outline-offset: -4px; }
 
-  position: absolute;
-  inset: 2px;
-
-  background: #fafafa;
-
-  clip-path: inherit;
-}
-
-
-/* =========================
-   RESPONSIVE
-   ========================= */
-
-@media (max-width: 900px) {
-  .page-shell {
-    padding-inline: 18px;
-  }
-
-  .network-shell {
-    width: calc(100% + 36px);
-
-    margin-inline: -18px;
-  }
-
-  .network-canvas {
-    margin-left: 20px;
-  }
-}
+.profile-backdrop { position: fixed; z-index: 10; inset: 0; display: grid; place-items: center; padding: 1rem; background: rgba(16, 30, 35, .63); }
+.profile-panel { position: relative; width: min(100%, 42rem); max-height: min(46rem, calc(100vh - 2rem)); overflow: auto; padding: clamp(1.5rem, 4vw, 2.5rem); border: 1px solid rgba(255, 255, 255, .5); border-radius: 1rem; background: #fff; box-shadow: 0 1.5rem 5rem rgba(0, 0, 0, .3); }
+.panel-close { position: absolute; top: .8rem; right: .8rem; display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border: 0; border-radius: 50%; background: #eaf0f0; color: #18343d; font-size: 1.7rem; line-height: 1; cursor: pointer; }
+.profile-heading { display: flex; align-items: center; gap: 1.25rem; padding-right: 2.5rem; }
+.profile-heading img, .profile-image-fallback { width: 5rem; height: 5rem; flex: 0 0 5rem; border-radius: 50%; object-fit: cover; }
+.profile-image-fallback { display: grid; place-items: center; background: var(--purple); color: white; font-size: 2rem; font-weight: 800; }
+.profile-heading h2 { margin: 0; font-size: clamp(1.5rem, 4vw, 2.15rem); letter-spacing: -.04em; }
+.profile-heading p:last-child { margin: .35rem 0 0; color: var(--muted); }
+.profile-details { display: grid; grid-template-columns: minmax(7rem, .35fr) 1fr; gap: .9rem 1.25rem; margin: 2rem 0; line-height: 1.55; }
+.profile-details dt { color: var(--purple); font-weight: 800; }
+.profile-details dd { margin: 0; overflow-wrap: anywhere; }
+.profile-details a { color: #086d79; font-weight: 700; }
+.email-action { display: inline-flex; padding: .75rem 1rem; border-radius: .4rem; background: var(--teal); color: white; font-weight: 800; text-decoration: none; }
 
 @media (max-width: 700px) {
-  .hero-copy {
-    margin-bottom: 35px;
-  }
-
-  .hero-copy h1 {
-    font-size: 2.4rem;
-  }
+  .page-shell { padding-inline: 1rem; }
+  .network-section::before { inset-inline: -1rem; }
+  .network-shell { margin-inline: -1rem; padding-inline: 1rem; }
+  .network-canvas { margin-left: 0; }
+  .profile-details { grid-template-columns: 1fr; gap: .2rem; }
+  .profile-details dd { margin-bottom: .7rem; }
 }
+
+@media (prefers-reduced-motion: reduce) { .hex-button { transition: none; } .hex-button:hover { transform: none; } }
