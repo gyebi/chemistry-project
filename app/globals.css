@@ -1,26 +1,397 @@
-@import "tailwindcss";
+* {
+  box-sizing: border-box;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --hex-width: 140px;
+
+  --purple: #6b2c84;
+  --teal: #007481;
+
+  --phd-bg: #e7b84f;
+  --phd-text: #7a5010;
+
+  --msc-bg: #b9e1df;
+  --msc-text: #176d70;
+
+  --postdoc-bg: #e6aaa0;
+  --postdoc-text: #8a3028;
+
+  --text: #1f2430;
+  --muted: #606574;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.96),
+      rgba(255, 255, 255, 0.96)
+    ),
+    radial-gradient(
+      circle at 20% 20%,
+      #ece7f5 0,
+      transparent 35%
+    );
+}
+
+
+/* =========================
+   PAGE
+   ========================= */
+
+.page-shell {
+  min-height: 100vh;
+  padding: 60px 32px 100px;
+}
+
+.hero-copy {
+  max-width: 760px;
+  margin: 0 auto 55px;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+
+  color: var(--purple);
+
+  font-size: 0.8rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.hero-copy h1 {
+  margin: 0;
+
+  font-size: clamp(2.3rem, 5vw, 4.8rem);
+  line-height: 1;
+}
+
+.hero-copy p:last-child {
+  max-width: 650px;
+  margin: 20px auto 0;
+
+  color: var(--muted);
+
+  line-height: 1.7;
+}
+
+
+/* =========================
+   COMMON HEXAGON GEOMETRY
+   ========================= */
+
+/*
+   Pointed-top REGULAR hexagon.
+
+   width / height = √3 / 2
+                  ≈ 0.8660254
+
+   Therefore:
+   140px width ≈ 161.66px height.
+*/
+
+.hex-shape,
+.chemistry-node {
+  width: var(--hex-width);
+
+  aspect-ratio: 0.8660254;
+
+  clip-path: polygon(
+    50% 0%,
+    100% 25%,
+    100% 75%,
+    50% 100%,
+    0% 75%,
+    0% 25%
+  );
+}
+
+
+/* =========================
+   PERSON HEXAGON
+   ========================= */
+
+.hex-card {
+  width: var(--hex-width);
+  text-align: center;
+}
+
+.hex-shape {
+  position: relative;
+
+  margin: 0;
+
+  overflow: hidden;
+
+  background: var(--purple);
+
+  transition:
+    transform 180ms ease,
+    filter 180ms ease;
+}
+
+/*
+   Inner pseudo layer creates a more convincing
+   six-sided border than CSS border on clip-path.
+*/
+.hex-shape::before {
+  content: "";
+
+  position: absolute;
+  inset: 3px;
+
+  z-index: 1;
+
+  background: #ded8e4;
+
+  clip-path: inherit;
+}
+
+.hex-shape img {
+  position: absolute;
+  inset: 3px;
+
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+
+  z-index: 2;
+
+  object-fit: cover;
+
+  clip-path: inherit;
+}
+
+.hex-placeholder {
+  position: absolute;
+  inset: 3px;
+
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+
+  background: var(--purple);
+  color: white;
+
+  font-size: 3rem;
+  font-weight: 700;
+
+  clip-path: inherit;
+}
+
+.hex-shape:hover {
+  transform: translateY(-4px) scale(1.025);
+
+  filter:
+    drop-shadow(
+      0 10px 14px rgba(0, 0, 0, 0.18)
+    );
+}
+
+
+/* =========================
+   PERSON LABELS
+   ========================= */
+
+.hex-info {
+  display: grid;
+
+  gap: 2px;
+
+  margin-top: 5px;
+
+  line-height: 1.2;
+}
+
+.hex-info strong {
+  font-size: 0.84rem;
+}
+
+.hex-info span {
+  color: var(--purple);
+
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.hex-info small {
+  color: #727783;
+
+  font-size: 0.68rem;
+  line-height: 1.25;
+}
+
+
+/* =========================
+   NETWORK
+   ========================= */
+
+.network-shell {
+  width: 100%;
+
+  padding: 10px 0 80px;
+
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.network-canvas {
+  position: relative;
+
+  width: 1100px;
+  height: 560px;
+
+  margin: 0 auto;
+}
+
+
+/* =========================
+   CONNECTION LINES
+   ========================= */
+
+.network-lines {
+  position: absolute;
+  inset: 0;
+
+  z-index: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+
+  overflow: visible;
+}
+
+.network-lines line {
+  stroke: #45484d;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+
+/* =========================
+   NETWORK NODES
+   ========================= */
+
+.network-node {
+  position: absolute;
+
+  z-index: 2;
+
+  width: var(--hex-width);
+}
+
+.network-node .hex-card {
+  width: var(--hex-width);
+}
+
+
+/* =========================
+   CHEMISTRY / ROLE NODES
+   ========================= */
+
+.chemistry-node {
+  display: grid;
+  place-items: center;
+
+  padding: 18px;
+
+  text-align: center;
+
+  font-weight: 700;
+}
+
+.role-node {
+  font-size: 0.95rem;
+}
+
+.role-node.phd {
+  background: var(--phd-bg);
+  color: var(--phd-text);
+}
+
+.role-node.msc {
+  background: var(--msc-bg);
+  color: var(--msc-text);
+}
+
+.role-node.postdoc {
+  background: var(--postdoc-bg);
+  color: var(--postdoc-text);
+}
+
+.research-node {
+  background: var(--teal);
+  color: white;
+
+  font-size: 0.8rem;
+  line-height: 1.25;
+}
+
+
+/* =========================
+   EMPTY LATTICE NODES
+   ========================= */
+
+.empty-node {
+  position: relative;
+
+  padding: 0;
+
+  background: #c7c7c7;
+}
+
+.empty-node::after {
+  content: "";
+
+  position: absolute;
+  inset: 2px;
+
+  background: #fafafa;
+
+  clip-path: inherit;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 900px) {
+  .page-shell {
+    padding-inline: 18px;
+  }
+
+  .network-shell {
+    width: calc(100% + 36px);
+
+    margin-inline: -18px;
+  }
+
+  .network-canvas {
+    margin-left: 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero-copy {
+    margin-bottom: 35px;
+  }
+
+  .hero-copy h1 {
+    font-size: 2.4rem;
+  }
 }
